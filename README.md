@@ -10,7 +10,7 @@ A macOS port of [flyingcakes85/LoveBites](https://github.com/flyingcakes85/LoveB
 | Xfwm/GTK theme | Light mode, red accent, pink highlight |
 | Iosevka | Installed to `~/Library/Fonts` |
 | — | Ghostty themes `LoveBites` / `LoveBites Dark` (auto light/dark) |
-| — | fastfetch logo: the wallpaper girl (`assets/terminal/fastfetch-girl.png`, kitty graphics in Ghostty) |
+| — | fastfetch logo: red manga-eye art (`assets/terminal/fastfetch-logo.png`, kitty graphics in Ghostty) |
 | — | Ghostty backdrop: the wallpaper, dimmed into the theme color |
 | — | Neovim colorscheme `nvim/colors/lovebites.lua` (light + dark, follows Ghostty) |
 

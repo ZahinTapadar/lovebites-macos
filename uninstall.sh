@@ -11,7 +11,7 @@ G="$HOME/.config/ghostty/config"
 [ -f "$G" ] && sed -i '' '/# >>> lovebites >>>/,/# <<< lovebites <<</d' "$G"
 rm -f "$HOME/.config/ghostty/themes/LoveBites" "$HOME/.config/ghostty/themes/LoveBites Dark"
 rm -f "$HOME/.config/nvim/colors/lovebites.lua"
-rm -f "$HOME/.config/fastfetch/lovebites-girl.png"
+rm -f "$HOME/.config/fastfetch/lovebites-logo.png"
 [ -f "$BK/fastfetch-config.jsonc" ] && cp "$BK/fastfetch-config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
 
 [ -f "$BK/restore.sh" ] && bash "$BK/restore.sh"
