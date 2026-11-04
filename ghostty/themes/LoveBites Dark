@@ -1,0 +1,23 @@
+# LoveBites Dark: dark variant, same pink accent
+background = #1f1a1c
+foreground = #f2e4e7
+cursor-color = #ff6b7f
+cursor-text = #1f1a1c
+selection-background = #4a2a31
+selection-foreground = #f2e4e7
+palette = 0=#3e3236
+palette = 1=#ff6b7f
+palette = 2=#7fcf9f
+palette = 3=#f0b060
+palette = 4=#8fa8f0
+palette = 5=#e08fd0
+palette = 6=#6fd0d4
+palette = 7=#d4c2c6
+palette = 8=#7d6a6f
+palette = 9=#ff8a9a
+palette = 10=#9fe0b8
+palette = 11=#e8cf7a
+palette = 12=#adc0f5
+palette = 13=#eeb0e0
+palette = 14=#94e0e3
+palette = 15=#f2e4e7

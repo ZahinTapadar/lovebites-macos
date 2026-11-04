@@ -1,0 +1,1045 @@
+-- ============================================================================
+-- Neovim configuration
+-- Ghostty-transparent • Helix-flavoured • VS Code-inspired
+-- Requires Neovim >= 0.11, git, ripgrep, fd, a C compiler, and node
+-- ============================================================================
+
+-- Leader keys
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
+local o = vim.opt
+local map = vim.keymap.set
+
+-- Tell LuaLS that `vim` is the Neovim global.
+-- This removes the "Undefined global 'vim'" diagnostics in this file.
+
+-- ============================================================================
+-- Editor
+-- ============================================================================
+
+o.termguicolors = true
+o.number = true
+o.relativenumber = true
+o.cursorline = true
+o.scrolloff = 8
+o.colorcolumn = { "80", "100" }
+o.signcolumn = "yes"
+o.mouse = "a"
+o.clipboard = "unnamedplus"
+
+o.splitbelow = true
+o.splitright = true
+
+o.undofile = true
+o.ignorecase = true
+o.smartcase = true
+
+o.updatetime = 2000
+o.timeoutlen = 400
+
+o.completeopt = { "menuone", "noselect", "popup" }
+
+o.confirm = true
+o.title = true
+o.showmode = false
+o.laststatus = 3
+
+-- ============================================================================
+-- Folding
+-- VS Code-style code collapsing
+-- ============================================================================
+
+o.foldmethod = "expr"
+o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+o.foldlevel = 99
+o.foldenable = true
+o.foldtext = ""
+
+-- ============================================================================
+-- Wrapping
+-- ============================================================================
+
+o.wrap = true
+o.linebreak = true
+o.breakindent = true
+
+-- ============================================================================
+-- Indentation
+-- ============================================================================
+
+o.expandtab = true
+o.shiftwidth = 4
+o.tabstop = 4
+o.smartindent = true
+
+-- ============================================================================
+-- Whitespace
+-- ============================================================================
+
+o.list = true
+o.listchars = {
+    space = "·",
+    tab = "→ ",
+    eol = "⏎",
+    trail = "·",
+    nbsp = "␣",
+}
+
+-- ============================================================================
+-- Cursor
+-- ============================================================================
+
+o.guicursor = "n-c:block,i-ci-ve:ver25,v:hor20,r-cr-o:hor20"
+
+-- ============================================================================
+-- lazy.nvim
+-- ============================================================================
+
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+
+if not vim.uv.fs_stat(lazypath) then
+    vim.fn.system({
+        "git",
+        "clone",
+        "--filter=blob:none",
+        "--branch=stable",
+        "https://github.com/folke/lazy.nvim.git",
+        lazypath,
+    })
+end
+
+vim.opt.rtp:prepend(lazypath)
+
+-- ============================================================================
+-- Plugins
+-- ============================================================================
+
+require("lazy").setup({
+
+    -- -------------------------------------------------------------------------
+    -- Theme
+    -- -------------------------------------------------------------------------
+
+    {
+        "shaunsingh/nord.nvim",
+        lazy = false,
+        priority = 1000,
+
+        config = function()
+            vim.g.nord_contrast = true
+            vim.g.nord_borders = true
+            vim.g.nord_disable_background = true
+            vim.g.nord_cursorline_transparent = true
+            vim.g.nord_enable_sidebar_background = false
+
+            vim.cmd.colorscheme("nord")
+        end,
+    },
+
+
+    -- -------------------------------------------------------------------------
+    -- Discord Rich Presence
+    -- -------------------------------------------------------------------------
+    {
+        "vyfor/cord.nvim",
+        opts = {
+            display = {
+                theme = "catppuccin",
+                flavor = "accent",
+                view = "full",
+            },
+
+            text = {
+                editing = function(opts)
+                    local languages = {
+                        lua = "Lua",
+                        python = "Python",
+                        cpp = "C++",
+                        c = "C",
+                        javascript = "JavaScript",
+                        typescript = "TypeScript",
+                        html = "HTML",
+                        css = "CSS",
+                        json = "JSON",
+                        markdown = "Markdown",
+                        bash = "Bash",
+                        rust = "Rust",
+                        java = "Java",
+                    }
+
+                    return "Writing " .. (languages[opts.filetype] or opts.filetype)
+                end,
+
+                viewing = function(opts)
+                    local languages = {
+                        lua = "Lua",
+                        python = "Python",
+                        cpp = "C++",
+                        c = "C",
+                        javascript = "JavaScript",
+                        typescript = "TypeScript",
+                        html = "HTML",
+                        css = "CSS",
+                        json = "JSON",
+                        markdown = "Markdown",
+                        bash = "Bash",
+                        rust = "Rust",
+                        java = "Java",
+                    }
+
+                    return "Reading " .. (languages[opts.filetype] or opts.filetype)
+                end,
+
+                workspace = "",
+            },
+        },
+    },
+    -- -------------------------------------------------------------------------
+    -- Bufferline
+    -- VS Code-style tabs for buffers
+    -- -------------------------------------------------------------------------
+
+    {
+        "akinsho/bufferline.nvim",
+        version = "*",
+        dependencies = {
+            "nvim-tree/nvim-web-devicons",
+        },
+
+        config = function()
+            require("bufferline").setup({
+                options = {
+                    mode = "buffers",
+                    diagnostics = "nvim_lsp",
+                    always_show_bufferline = true,
+                    show_buffer_close_icons = true,
+                    show_close_icon = true,
+                    separator_style = "thin",
+
+                    offsets = {
+                        {
+                            filetype = "NvimTree",
+                            text = "File Explorer",
+                            text_align = "center",
+                            separator = true,
+                        },
+                    },
+                },
+            })
+        end,
+    },
+
+    -- -------------------------------------------------------------------------
+    -- File tree
+    -- Space + E
+    -- -------------------------------------------------------------------------
+
+    {
+        "nvim-tree/nvim-tree.lua",
+        dependencies = {
+            "nvim-tree/nvim-web-devicons",
+        },
+
+        config = function()
+            require("nvim-tree").setup({
+                -- Do not let NvimTree take over `nvim .`.
+                -- Space + E still opens it normally.
+                hijack_directories = {
+                    enable = false,
+                    auto_open = false,
+                },
+
+                view = {
+                    width = 32,
+                    side = "left",
+                },
+
+                renderer = {
+                    group_empty = true,
+                },
+
+                filters = {
+                    dotfiles = false,
+                },
+
+                actions = {
+                    open_file = {
+                        quit_on_open = false,
+                    },
+                },
+            })
+
+            map("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", {
+                desc = "Toggle file tree",
+            })
+        end,
+    },
+
+    -- -------------------------------------------------------------------------
+    -- Code outline
+    -- Space + O
+    -- -------------------------------------------------------------------------
+
+    {
+        "hedyhli/outline.nvim",
+
+        config = function()
+            require("outline").setup({
+                outline_window = {
+                    position = "right",
+                    width = 30,
+                    relative_width = false,
+                },
+
+                symbols = {
+                    icons = {
+                        File = { icon = "󰈙", hl = "Identifier" },
+                        Module = { icon = "󰏗", hl = "Include" },
+                        Namespace = { icon = "󰅪", hl = "Include" },
+                        Package = { icon = "󰏖", hl = "Include" },
+                        Class = { icon = "󰠱", hl = "Type" },
+                        Method = { icon = "󰆧", hl = "Function" },
+                        Property = { icon = "󰜢", hl = "Identifier" },
+                        Field = { icon = "󰜢", hl = "Identifier" },
+                        Constructor = { icon = "", hl = "Special" },
+                        Enum = { icon = "", hl = "Type" },
+                        Interface = { icon = "", hl = "Type" },
+                        Function = { icon = "󰊕", hl = "Function" },
+                        Variable = { icon = "󰀫", hl = "Constant" },
+                        Constant = { icon = "󰏿", hl = "Constant" },
+                        String = { icon = "󰀬", hl = "String" },
+                        Number = { icon = "󰎠", hl = "Number" },
+                        Boolean = { icon = "󰨙", hl = "Boolean" },
+                        Array = { icon = "󰅪", hl = "Constant" },
+                        Object = { icon = "󰅩", hl = "Type" },
+                        Key = { icon = "󰌋", hl = "Constant" },
+                        Null = { icon = "󰟢", hl = "Constant" },
+                        EnumMember = { icon = "", hl = "Constant" },
+                        Struct = { icon = "󰙅", hl = "Type" },
+                        Event = { icon = "", hl = "Type" },
+                        Operator = { icon = "󰆕", hl = "Operator" },
+                        TypeParameter = { icon = "󰊄", hl = "Type" },
+                    },
+                },
+            })
+
+            map("n", "<leader>o", "<cmd>Outline<CR>", {
+                desc = "Toggle code outline",
+            })
+        end,
+    },
+
+    -- -------------------------------------------------------------------------
+    -- Tree-sitter
+    -- New main-branch API for Neovim 0.11+
+    -- -------------------------------------------------------------------------
+
+       {
+       "nvim-lualine/lualine.nvim",
+       dependencies = { "nvim-tree/nvim-web-devicons" },
+       opts = function()
+           local t = {}
+           for _, m in ipairs({ "normal", "insert", "visual", "replace", "command", "inactive" }) do
+               t[m] = {
+                   a = { fg = "#88c0d0", bg = "NONE", gui = "bold" },
+                   b = { fg = "#d8dee9", bg = "NONE" },
+                   c = { fg = "#d8dee9", bg = "NONE" },
+               }
+           end
+           return {
+               options = { theme = t, section_separators = "", component_separators = "│", globalstatus = true },
+               sections = {
+                   lualine_a = { "mode" }, lualine_b = { { "filename", path = 1 } }, lualine_c = {},
+                   lualine_x = { "diagnostics", "branch", "diff" }, lualine_y = { "location", "filetype" }, lualine_z = {},
+               },
+           }
+       end,
+   },
+
+
+    {
+        "nvim-treesitter/nvim-treesitter",
+        branch = "main",
+        lazy = false,
+        build = ":TSUpdate",
+
+        config = function()
+            local ts = require("nvim-treesitter")
+
+            ts.setup({})
+
+            ts.install({
+                "lua",
+                "vim",
+                "vimdoc",
+                "c",
+                "cpp",
+                "python",
+                "bash",
+                "json",
+                "yaml",
+                "toml",
+                "markdown",
+                "markdown_inline",
+            })
+
+            vim.api.nvim_create_autocmd("FileType", {
+                callback = function(ev)
+                    pcall(vim.treesitter.start, ev.buf)
+
+                    if vim.treesitter.language.get_lang(ev.match) then
+                        vim.bo[ev.buf].indentexpr =
+                        "v:lua.require'nvim-treesitter'.indentexpr()"
+                    end
+                end,
+            })
+        end,
+    },
+
+    -- -------------------------------------------------------------------------
+    -- Indent guides
+    -- -------------------------------------------------------------------------
+
+    {
+        "lukas-reineke/indent-blankline.nvim",
+        main = "ibl",
+
+        opts = {
+            indent = {
+                char = "│",
+            },
+
+            scope = {
+                enabled = false,
+            },
+        },
+    },
+
+    -- -------------------------------------------------------------------------
+    -- Which-key
+    -- -------------------------------------------------------------------------
+
+    {
+        "folke/which-key.nvim",
+        event = "VeryLazy",
+
+        opts = {
+            delay = 300,
+        },
+    },
+
+    -- -------------------------------------------------------------------------
+    -- Telescope
+    -- Space + F = files
+    -- Space + B = buffers
+    -- Space + / = grep
+    -- Space + S = symbols
+    -- -------------------------------------------------------------------------
+
+    {
+        "nvim-telescope/telescope.nvim",
+        branch = "master",
+
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+        },
+
+        cmd = "Telescope",
+
+        keys = {
+            {
+                "<leader>f",
+                function()
+                    require("telescope.builtin").find_files({
+                        hidden = true,
+                        previewer = true,
+                    })
+                end,
+                desc = "File picker",
+            },
+
+            {
+                "<leader>b",
+                "<cmd>Telescope buffers<CR>",
+                desc = "Buffers",
+            },
+
+            {
+                "<leader>/",
+                "<cmd>Telescope live_grep<CR>",
+                desc = "Global search",
+            },
+
+            {
+                "<leader>s",
+                "<cmd>Telescope lsp_document_symbols<CR>",
+                desc = "Symbols",
+            },
+
+            {
+                "<leader>d",
+                "<cmd>Telescope diagnostics bufnr=0<CR>",
+                desc = "Diagnostics",
+            },
+
+            {
+                "<leader>'",
+                "<cmd>Telescope resume<CR>",
+                desc = "Last picker",
+            },
+        },
+
+        opts = {
+            defaults = {
+                winblend = 0,
+
+                file_ignore_patterns = {
+                    "^.git/",
+                    "node_modules/",
+                },
+
+                layout_strategy = "horizontal",
+
+                layout_config = {
+                    width = 0.9,
+                    horizontal = { preview_width = 0.55, preview_cutoff = 1 },
+                },
+            },
+
+            pickers = {
+                find_files = {
+                    hidden = true,
+                    previewer = true,
+                },
+
+                buffers = {
+                    previewer = true,
+                },
+            },
+        },
+    },
+
+    -- -------------------------------------------------------------------------
+    -- LSP
+    -- Python = Pyright
+    -- C/C++  = clangd
+    -- Lua    = lua_ls
+    -- -------------------------------------------------------------------------
+
+    {
+        "neovim/nvim-lspconfig",
+
+        dependencies = {
+            {
+                "mason-org/mason.nvim",
+                opts = {},
+            },
+
+            {
+                "mason-org/mason-lspconfig.nvim",
+
+                opts = {
+                    ensure_installed = {
+                        "lua_ls",
+                        "clangd",
+                        "pyright",
+                    },
+
+                    automatic_enable = true,
+                },
+            },
+        },
+
+        config = function()
+            -- Python
+            vim.lsp.config("pyright", {})
+
+            -- C / C++
+            -- Mason provides clangd; Homebrew LLVM is also available at:
+            -- /opt/homebrew/opt/llvm/bin/clangd
+            vim.lsp.config("clangd", {})
+
+            -- Lua
+            vim.lsp.config("lua_ls", {
+                settings = {
+                    Lua = {
+                        diagnostics = {
+                            globals = { "vim" },
+                        },
+                    },
+                },
+            })
+
+            vim.lsp.enable({
+                "pyright",
+                "clangd",
+                "lua_ls",
+            })
+
+            vim.api.nvim_create_autocmd("LspAttach", {
+                callback = function(ev)
+                    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+
+                    if client and client:supports_method("textDocument/inlayHint") then
+                        vim.lsp.inlay_hint.enable(true, {
+                            bufnr = ev.buf,
+                        })
+                    end
+
+                    local lsp_map = function(lhs, rhs, desc)
+                        map("n", lhs, rhs, {
+                            buffer = ev.buf,
+                            desc = desc,
+                        })
+                    end
+
+                    lsp_map("gd", vim.lsp.buf.definition, "Go to definition")
+                    lsp_map("gr", vim.lsp.buf.references, "References")
+                    lsp_map("gi", vim.lsp.buf.implementation, "Implementation")
+                    lsp_map("gy", vim.lsp.buf.type_definition, "Type definition")
+                    lsp_map("K", vim.lsp.buf.hover, "Hover documentation")
+                    lsp_map("<leader>r", vim.lsp.buf.rename, "Rename symbol")
+                    lsp_map("<leader>a", vim.lsp.buf.code_action, "Code action")
+                end,
+            })
+
+            vim.diagnostic.config({
+                virtual_text = {
+                    prefix = "●",
+                },
+
+                float = {
+                    border = "rounded",
+                },
+
+                severity_sort = true,
+            })
+        end,
+    },
+
+    -- -------------------------------------------------------------------------
+    -- Completion
+    -- -------------------------------------------------------------------------
+
+    {
+        "saghen/blink.cmp",
+        version = "1.*",
+        event = "InsertEnter",
+
+        opts = {
+            keymap = {
+                preset = "super-tab",
+            },
+
+            completion = {
+                menu = {
+                    border = "rounded",
+                },
+
+                documentation = {
+                    auto_show = true,
+
+                    window = {
+                        border = "rounded",
+                    },
+                },
+            },
+
+            signature = {
+                enabled = true,
+
+                window = {
+                    border = "rounded",
+                },
+            },
+        },
+    },
+
+    -- -------------------------------------------------------------------------
+    -- Format on save
+    -- -------------------------------------------------------------------------
+
+    {
+        "stevearc/conform.nvim",
+        event = "BufWritePre",
+
+        opts = {
+            format_on_save = {
+                timeout_ms = 1000,
+                lsp_format = "fallback",
+            },
+        },
+    },
+
+    -- -------------------------------------------------------------------------
+    -- Git
+    -- -------------------------------------------------------------------------
+
+    {
+        "lewis6991/gitsigns.nvim",
+        event = "BufReadPre",
+        opts = {},
+    },
+
+
+
+
+
+    -- -------------------------------------------------------------------------
+    -- Auto pairs
+    -- -------------------------------------------------------------------------
+
+    {
+        "windwp/nvim-autopairs",
+        event = "InsertEnter",
+        opts = {},
+    },
+}, {
+    ui = {
+        border = "rounded",
+    },
+
+    change_detection = {
+        notify = false,
+    },
+})
+
+-- ============================================================================
+-- Transparent appearance
+-- ============================================================================
+
+local function transparent()
+    local groups = {
+        "Normal",
+        "NormalNC",
+        "NormalFloat",
+        "FloatBorder",
+        "FloatTitle",
+        "SignColumn",
+        "EndOfBuffer",
+        "LineNr",
+        "CursorLineNr",
+        "FoldColumn",
+        "StatusLine",
+        "StatusLineNC",
+        "WinSeparator",
+        "TabLine",
+        "TabLineFill",
+        "TabLineSel",
+        "Pmenu",
+        "MsgArea",
+        "ColorColumn",
+        "TelescopeNormal",
+        "TelescopeBorder",
+        "TelescopePromptNormal",
+        "TelescopePromptBorder",
+        "TelescopeResultsNormal",
+        "TelescopePreviewNormal",
+        "WhichKeyNormal",
+        "BlinkCmpMenu",
+        "BlinkCmpDoc",
+    }
+
+    for _, group in ipairs(groups) do
+        local hl = vim.api.nvim_get_hl(0, {
+            name = group,
+            link = false,
+        })
+
+        hl.bg = nil
+        hl.ctermbg = nil
+
+        vim.api.nvim_set_hl(0, group, hl)
+    end
+
+    vim.api.nvim_set_hl(0, "ColorColumn", {
+        bg = "#1a1a1a",
+    })
+
+    vim.api.nvim_set_hl(0, "CursorLine", {
+        bg = "#1f1f1f",
+    })
+
+    vim.api.nvim_set_hl(0, "Whitespace", {
+        fg = "#333333",
+    })
+
+    vim.api.nvim_set_hl(0, "NonText", {
+        fg = "#333333",
+    })
+
+    vim.api.nvim_set_hl(0, "SpecialKey", {
+        fg = "#333333",
+    })
+end
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+    callback = transparent,
+})
+
+transparent()
+
+-- ============================================================================
+-- Keymaps
+-- ============================================================================
+
+-- ---------------------------------------------------------------------------
+-- Buffer switching
+-- ---------------------------------------------------------------------------
+
+map("n", "<C-Tab>", "<cmd>bnext<CR>", {
+    desc = "Next buffer",
+})
+
+map("n", "<C-S-Tab>", "<cmd>bprevious<CR>", {
+    desc = "Previous buffer",
+})
+
+map("n", "gn", "<cmd>bnext<CR>", {
+    desc = "Next buffer",
+})
+
+map("n", "gp", "<cmd>bprevious<CR>", {
+    desc = "Previous buffer",
+})
+
+map("n", "<leader>x", "<cmd>bdelete<CR>", {
+    desc = "Close buffer",
+})
+
+-- ---------------------------------------------------------------------------
+-- Save / quit
+-- ---------------------------------------------------------------------------
+
+map("n", "<C-s>", "<cmd>w<CR>", {
+    desc = "Save",
+})
+
+map("i", "<C-s>", "<Esc><cmd>w<CR>a", {
+    desc = "Save",
+})
+
+map("n", "<leader>w", "<cmd>w<CR>", {
+    desc = "Save",
+})
+
+map("n", "<leader>q", "<cmd>q<CR>", {
+    desc = "Quit",
+})
+
+-- ---------------------------------------------------------------------------
+-- Comments
+-- ---------------------------------------------------------------------------
+
+map({ "n", "v" }, "<C-_>", "gc", {
+    remap = true,
+    desc = "Toggle comment",
+})
+
+map({ "n", "v" }, "<C-/>", "gc", {
+    remap = true,
+    desc = "Toggle comment",
+})
+
+map("n", "<C-_>", "gcc", {
+    remap = true,
+    desc = "Toggle comment",
+})
+
+map("n", "<C-/>", "gcc", {
+    remap = true,
+    desc = "Toggle comment",
+})
+
+-- ---------------------------------------------------------------------------
+-- Helix-style movement
+-- ---------------------------------------------------------------------------
+
+map({ "n", "v", "o" }, "gh", "0", {
+    desc = "Line start",
+})
+
+map({ "n", "v", "o" }, "gl", "$", {
+    desc = "Line end",
+})
+
+map({ "n", "v", "o" }, "gs", "^", {
+    desc = "First non-blank",
+})
+
+map({ "n", "v", "o" }, "ge", "G", {
+    desc = "End of file",
+})
+
+map("n", "U", "<C-r>", {
+    desc = "Redo",
+})
+
+-- Space + % = select entire file.
+-- % itself remains Vim's matching-bracket command.
+map("n", "<leader>%", "ggVG", {
+    desc = "Select whole file",
+})
+
+map("n", "<leader>y", '"+y', {
+    desc = "Yank to system clipboard",
+})
+
+-- ---------------------------------------------------------------------------
+-- Windows / splits
+-- ---------------------------------------------------------------------------
+
+map("n", "<C-h>", "<C-w>h", {
+    desc = "Move left",
+})
+
+map("n", "<C-j>", "<C-w>j", {
+    desc = "Move down",
+})
+
+map("n", "<C-k>", "<C-w>k", {
+    desc = "Move up",
+})
+
+map("n", "<C-l>", "<C-w>l", {
+    desc = "Move right",
+})
+
+map("n", "<leader>sv", "<cmd>vsplit<CR>", {
+    desc = "Vertical split",
+})
+
+map("n", "<leader>sh", "<cmd>split<CR>", {
+    desc = "Horizontal split",
+})
+
+map("n", "<leader>sx", "<cmd>close<CR>", {
+    desc = "Close split",
+})
+
+-- ---------------------------------------------------------------------------
+-- Folding
+-- ---------------------------------------------------------------------------
+
+map("n", "<leader>zc", "zc", {
+    desc = "Collapse block",
+})
+
+map("n", "<leader>zo", "zo", {
+    desc = "Open block",
+})
+
+map("n", "<leader>za", "za", {
+    desc = "Toggle fold",
+})
+
+-- ---------------------------------------------------------------------------
+-- Search / diagnostics
+-- ---------------------------------------------------------------------------
+
+map("n", "<Esc>", "<cmd>nohlsearch<CR>")
+map("n", "j", "gj")
+map("n", "k", "gk")
+
+map("n", "]d", function()
+    vim.diagnostic.jump({
+        count = 1,
+    })
+end, {
+    desc = "Next diagnostic",
+})
+
+map("n", "[d", function()
+    vim.diagnostic.jump({
+        count = -1,
+    })
+end, {
+    desc = "Previous diagnostic",
+})
+
+-- ============================================================================
+-- Auto-save
+-- ============================================================================
+
+vim.api.nvim_create_autocmd({ "FocusLost", "CursorHold", "InsertLeave" }, {
+    callback = function(ev)
+        local buf = ev.buf
+
+        if
+            vim.bo[buf].modified
+            and vim.bo[buf].modifiable
+            and vim.bo[buf].buftype == ""
+            and vim.api.nvim_buf_get_name(buf) ~= ""
+        then
+            vim.api.nvim_buf_call(buf, function()
+                vim.cmd("silent! update")
+            end)
+        end
+    end,
+})
+
+-- ============================================================================
+-- Highlight yanked text
+-- ============================================================================
+
+vim.api.nvim_create_autocmd("TextYankPost", {
+    callback = function()
+        vim.hl.on_yank()
+    end,
+})
+
+-- ============================================================================
+-- Reopen files at last cursor position
+-- ============================================================================
+
+vim.api.nvim_create_autocmd("BufReadPost", {
+    callback = function(ev)
+        local mark = vim.api.nvim_buf_get_mark(ev.buf, '"')
+
+        if mark[1] > 0 and mark[1] <= vim.api.nvim_buf_line_count(ev.buf) then
+            pcall(vim.api.nvim_win_set_cursor, 0, mark)
+        end
+    end,
+})
+
+-- ============================================================================
+-- `nvim .` = Telescope file picker
+-- Helix-style project opening
+-- ============================================================================
+
+-- Disable the built-in netrw directory handler.
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
+vim.api.nvim_create_autocmd("VimEnter", {
+    callback = function()
+        local arg = vim.fn.argv(0)
+
+        if arg == "" or vim.fn.isdirectory(arg) ~= 1 then
+            return
+        end
+
+        vim.cmd.cd(arg)
+
+        local dirbuf = vim.api.nvim_get_current_buf()
+        vim.cmd("enew")
+        pcall(vim.api.nvim_buf_delete, dirbuf, {
+            force = true,
+        })
+
+        -- Telescope is lazy-loaded, so explicitly load it before opening
+        -- the picker. Scheduling also prevents startup plugins from racing
+        -- with this directory handler.
+        vim.schedule(function()
+            require("lazy").load({
+                plugins = { "telescope.nvim" },
+            })
+
+            require("telescope.builtin").find_files({
+                hidden = true,
+                previewer = true,
+            })
+        end)
+    end,
+})

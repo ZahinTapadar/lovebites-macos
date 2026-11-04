@@ -1,0 +1,53 @@
+# Window Look (iTerm2 Style)
+macos-titlebar-style = transparent
+background-opacity = 0.4
+background-blur = true
+
+# Window Startup Size
+window-width = 100
+window-height = 30
+
+# Quick terminal
+keybind = global:cmd+grave_accent=toggle_quick_terminal
+quick-terminal-position = center
+quick-terminal-screen = mouse
+quick-terminal-animation-duration = 0
+quick-terminal-autohide = false
+quick-terminal-size = 1000px,700px
+
+# Padding
+window-padding-x = 12
+window-padding-y = 12
+window-padding-balance = true
+
+# Shell Integration Features (Leave cursor shape alone)
+shell-integration-features = no-cursor
+
+# Typography & Cursor
+#font-family = "FiraCode Nerd Font"
+font-family = "JetBrainsMono-Regular"
+cursor-style = block
+font-size = 15
+
+# Font rendering
+font-thicken = true
+
+# This explicitly forces Ghostty to turn on programming ligatures
+font-feature = liga
+font-feature = calt
+
+# Option Keys act as Alt
+macos-option-as-alt = true
+cursor-click-to-move = true
+mouse-scroll-multiplier = 1.0
+
+# Classic iTerm2 Dark Palette
+#theme = dark:Black Metal (Dark Funeral),light:
+theme = Xcode Dark hc
+cursor-style-blink = true
+macos-icon = official
+# >>> lovebites >>>
+theme = light:LoveBites,dark:LoveBites Dark
+font-family = "Iosevka"
+background-opacity = 1
+# <<< lovebites <<<

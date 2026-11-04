@@ -1,0 +1,23 @@
+# LoveBites: light pink terminal to match the rice
+background = #fafafa
+foreground = #5a3d44
+cursor-color = #ff5a6f
+cursor-text = #fafafa
+selection-background = #ffd3d9
+selection-foreground = #5a3d44
+palette = 0=#5a3d44
+palette = 1=#ff5a6f
+palette = 2=#4fa37a
+palette = 3=#d98a2b
+palette = 4=#5b7fd6
+palette = 5=#c75aa8
+palette = 6=#3fa3a8
+palette = 7=#d9c9cc
+palette = 8=#a08890
+palette = 9=#ff8a9a
+palette = 10=#6cc196
+palette = 11=#e8a64c
+palette = 12=#7d9ae6
+palette = 13=#e07cc4
+palette = 14=#5cc0c4
+palette = 15=#fafafa
