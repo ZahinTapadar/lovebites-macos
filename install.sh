@@ -38,6 +38,7 @@ if ! saved "set picture"; then
 fi
 mkdir -p "$HOME/Pictures/LoveBites"
 cp "$HERE/assets/wallpaper.png" "$HOME/Pictures/LoveBites/wallpaper.png"
+cp "$HERE/assets/terminal/ghostty-bg.png" "$HOME/Pictures/LoveBites/ghostty-bg.png"
 osascript -e "tell application \"System Events\" to tell every desktop to set picture to \"$HOME/Pictures/LoveBites/wallpaper.png\""
 
 echo "==> Light mode, red accent, pink highlight"
@@ -72,10 +73,9 @@ if [ -d "$G" ]; then
 # >>> lovebites >>>
 theme = light:LoveBites,dark:LoveBites Dark
 font-family = "Iosevka"
-background-opacity = 1
-background-image = ~/Pictures/LoveBites/wallpaper.png
+background-image = ~/Pictures/LoveBites/ghostty-bg.png
 background-image-fit = cover
-background-image-opacity = 0.12
+background-image-opacity = 0.5
 # <<< lovebites <<<
 GH
 fi

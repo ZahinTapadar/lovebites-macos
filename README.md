@@ -11,7 +11,7 @@ A macOS port of [flyingcakes85/LoveBites](https://github.com/flyingcakes85/LoveB
 | Iosevka | Installed to `~/Library/Fonts` |
 | — | Ghostty themes `LoveBites` / `LoveBites Dark` (auto light/dark) |
 | — | fastfetch logo: red manga-eye art (`assets/terminal/fastfetch-logo.png`, kitty graphics in Ghostty) |
-| — | Ghostty backdrop: the wallpaper, dimmed into the theme color |
+| — | Ghostty backdrop: Rei art (`assets/terminal/ghostty-bg.png`), dimmed into the theme color |
 | — | Neovim colorscheme `nvim/colors/lovebites.lua` (light + dark, follows Ghostty) |
 
 ## Install
