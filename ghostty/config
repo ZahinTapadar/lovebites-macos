@@ -50,4 +50,7 @@ macos-icon = official
 theme = light:LoveBites,dark:LoveBites Dark
 font-family = "Iosevka"
 background-opacity = 1
+background-image = /Users/macbookair/Pictures/LoveBites/wallpaper.png
+background-image-fit = cover
+background-image-opacity = 0.12
 # <<< lovebites <<<

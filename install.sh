@@ -73,6 +73,9 @@ if [ -d "$G" ]; then
 theme = light:LoveBites,dark:LoveBites Dark
 font-family = "Iosevka"
 background-opacity = 1
+background-image = ~/Pictures/LoveBites/wallpaper.png
+background-image-fit = cover
+background-image-opacity = 0.12
 # <<< lovebites <<<
 GH
 fi
@@ -81,6 +84,22 @@ echo "==> Neovim colorscheme"
 mkdir -p "$HOME/.config/nvim/colors"
 cp "$HERE/nvim/colors/lovebites.lua" "$HOME/.config/nvim/colors/"
 echo "   use it with :colorscheme lovebites"
+
+echo "==> fastfetch anime logo"
+F="$HOME/.config/fastfetch"
+mkdir -p "$F"
+cp "$HERE/assets/terminal/fastfetch-girl.png" "$F/lovebites-girl.png"
+backup "$F/config.jsonc" fastfetch-config.jsonc
+if [ -f "$F/config.jsonc" ] && ! grep -q '"logo"' "$F/config.jsonc"; then
+  # insert a logo block before "modules" so the rest of the user's config stays as is
+  python3 - "$F/config.jsonc" <<'PY'
+import sys; p=sys.argv[1]; s=open(p).read()
+logo='"logo": {"type": "kitty-direct", "source": "~/.config/fastfetch/lovebites-girl.png", "height": 19, "padding": {"top": 1, "left": 1, "right": 3}},\n    "modules"'
+open(p,'w').write(s.replace('"modules"', logo, 1))
+PY
+elif [ ! -f "$F/config.jsonc" ]; then
+  cp "$HERE/fastfetch/config.jsonc" "$F/config.jsonc"
+fi
 
 echo
 echo "Done. Log out and back in once so every app picks up the red accent."

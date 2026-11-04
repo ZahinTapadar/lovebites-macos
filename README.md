@@ -10,6 +10,8 @@ A macOS port of [flyingcakes85/LoveBites](https://github.com/flyingcakes85/LoveB
 | Xfwm/GTK theme | Light mode, red accent, pink highlight |
 | Iosevka | Installed to `~/Library/Fonts` |
 | — | Ghostty themes `LoveBites` / `LoveBites Dark` (auto light/dark) |
+| — | fastfetch logo: the wallpaper girl (`assets/terminal/fastfetch-girl.png`, kitty graphics in Ghostty) |
+| — | Ghostty backdrop: the wallpaper, dimmed into the theme color |
 | — | Neovim colorscheme `nvim/colors/lovebites.lua` (light + dark, follows Ghostty) |
 
 ## Install
@@ -19,7 +21,7 @@ A macOS port of [flyingcakes85/LoveBites](https://github.com/flyingcakes85/LoveB
 ./uninstall.sh   # puts them back
 ```
 
-`nvim/` and `ghostty/config` are my full configs; the installer only copies the colorscheme and themes.
+`nvim/`, `ghostty/config` and `fastfetch/config.jsonc` are my full configs; the installer only copies the colorscheme and themes.
 
 ## Credits
 
