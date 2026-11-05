@@ -26,7 +26,8 @@ echo "==> Homebrew packages"
 brew install macmon fileicon
 brew install --cask ubersicht
 
-echo "==> Iosevka font"
+echo "==> Fonts: Maple Mono NF (default) and Iosevka"
+brew install --cask font-maple-mono-nf
 unzip -oq "$HERE/assets/fonts/Iosevka-33.3.1.zip" -d "$HOME/Library/Fonts"
 
 echo "==> Wallpaper"
@@ -72,7 +73,8 @@ if [ -d "$G" ]; then
   cat >> "$G/config" <<'GH'
 # >>> lovebites >>>
 theme = light:LoveBites,dark:LoveBites Dark
-font-family = "Iosevka"
+font-family = "Maple Mono NF"
+#font-family = "Iosevka"
 background-image = ~/Pictures/LoveBites/ghostty-bg.png
 background-image-fit = cover
 background-image-opacity = 0.5

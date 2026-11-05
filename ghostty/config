@@ -49,6 +49,7 @@ macos-icon = official
 # >>> lovebites >>>
 theme = light:LoveBites,dark:LoveBites Dark
 font-family = "Maple Mono NF"
+#font-family = "Iosevka"
 background-image = /Users/macbookair/Pictures/LoveBites/ghostty-bg.png
 background-image-fit = cover
 background-image-opacity = 0.5
