@@ -27,6 +27,14 @@ return {
                     },
                 },
             },
+
+            -- No fills anywhere: on the translucent window they show up as white boxes
+            highlights = function(defaults)
+                for _, group in pairs(defaults.highlights) do
+                    group.bg = "NONE"
+                end
+                return defaults.highlights
+            end,
         })
     end,
 }
