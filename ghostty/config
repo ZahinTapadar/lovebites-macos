@@ -25,7 +25,7 @@ shell-integration-features = no-cursor
 
 # Typography & Cursor
 #font-family = "FiraCode Nerd Font"
-font-family = "JetBrainsMono-Regular"
+#font-family = "JetBrainsMono-Regular"
 cursor-style = block
 font-size = 15
 
@@ -48,7 +48,7 @@ cursor-style-blink = true
 macos-icon = official
 # >>> lovebites >>>
 theme = light:LoveBites,dark:LoveBites Dark
-font-family = "Iosevka"
+font-family = "Maple Mono NF"
 background-image = /Users/macbookair/Pictures/LoveBites/ghostty-bg.png
 background-image-fit = cover
 background-image-opacity = 0.5
