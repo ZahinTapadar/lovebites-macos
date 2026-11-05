@@ -1,8 +1,8 @@
 # LoveBites: light pink terminal to match the rice
 background = #fafafa
 foreground = #5a3d44
-cursor-color = #5a3d44
-cursor-text = #fafafa
+cursor-color = #ffffff
+cursor-text = #5a3d44
 selection-background = #ffd3d9
 selection-foreground = #5a3d44
 palette = 0=#5a3d44
