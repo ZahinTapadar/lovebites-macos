@@ -33,7 +33,7 @@ local groups = {
   FloatBorder = { fg = c.pink, bg = c.bg2 },
   FloatTitle = { fg = c.pink, bg = c.bg2, italic = true },
   Cursor = { fg = c.bg, bg = c.pink },
-  CursorLine = { bg = c.bg2 },
+  CursorLine = {}, -- no fill: on a translucent window it reads as a white bar; CursorLineNr marks the line
   CursorColumn = { bg = c.bg2 },
   ColorColumn = { bg = c.bg2 },
   CursorLineNr = { fg = c.pink, bold = true },
