@@ -2,6 +2,8 @@
 
 A macOS port of [flyingcakes85/LoveBites](https://github.com/flyingcakes85/LoveBites), plus my dotfiles.
 
+![LoveBites on macOS: Ghostty and Neovim over the wallpaper, with the Übersicht stats widget](assets/screenshot.webp)
+
 | LoveBites (Linux) | macOS |
 |---|---|
 | Wallpaper | Same art, refit to 16:10 |
