@@ -1,6 +1,6 @@
 # Window Look (iTerm2 Style)
 macos-titlebar-style = transparent
-background-opacity = 0.4
+background-opacity = 0.7
 background-blur = true
 
 # Window Startup Size
