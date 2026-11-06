@@ -1,0 +1,18 @@
+{
+  "readableLineLength": true,
+  "strictLineBreaks": false,
+  "showLineNumber": false,
+  "foldHeading": true,
+  "foldIndent": true,
+  "showFrontmatter": false,
+  "spellcheck": true,
+  "promptDelete": false,
+  "newFileLocation": "folder",
+  "newFileFolderPath": "Fleeting",
+  "attachmentFolderPath": ".attachments",
+  "alwaysUpdateLinks": true,
+  "useTab": true,
+  "showInlineTitle": true,
+  "defaultViewMode": "source",
+  "livePreview": true
+}

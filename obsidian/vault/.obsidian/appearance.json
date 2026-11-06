@@ -1,0 +1,12 @@
+{
+  "accentColor": "#ff5a6f",
+  "baseFontSize": 20,
+  "enabledCssSnippets": [
+    "lovebites-writer"
+  ],
+  "cssTheme": "",
+  "theme": "system",
+  "showViewHeader": false,
+  "nativeMenus": false,
+  "showRibbon": false
+}

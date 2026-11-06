@@ -14,6 +14,7 @@ A macOS port of [flyingcakes85/LoveBites](https://github.com/flyingcakes85/LoveB
 | — | Ghostty themes `LoveBites` / `LoveBites Dark` (auto light/dark) |
 | — | fastfetch logo: red manga-eye art (`assets/terminal/fastfetch-logo.png`, kitty graphics in Ghostty) |
 | — | Ghostty backdrop: Rei art (`assets/terminal/ghostty-bg.png`), dimmed into the theme color |
+| — | Obsidian: animated writing pad, book-style Reading mode, writing statistics, bookshelf (`obsidian/`, see its README) |
 | — | Neovim colorscheme `nvim/colors/lovebites.lua` (light + dark, follows Ghostty) |
 
 ## Install

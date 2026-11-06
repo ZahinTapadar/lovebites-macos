@@ -1,0 +1,9 @@
+{
+  "id": "lovebites-bloom",
+  "name": "LoveBites Bloom",
+  "version": "1.0.0",
+  "minAppVersion": "1.5.0",
+  "description": "Rewards writing: a gliding caret, petals as you type, word milestones that bloom, and a daily goal ring.",
+  "author": "LoveBites",
+  "isDesktopOnly": false
+}

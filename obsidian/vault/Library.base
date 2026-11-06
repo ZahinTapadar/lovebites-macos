@@ -1,0 +1,20 @@
+filters:
+  and:
+    - file.inFolder("Reading")
+    - file.ext == "md"
+properties:
+  note.author:
+    displayName: Author
+  note.status:
+    displayName: Status
+views:
+  - type: cards
+    name: Shelf
+    order:
+      - file.name
+      - author
+      - status
+    image: note.cover
+    imageFit: cover
+    imageAspectRatio: 1.5
+    cardSize: 170
