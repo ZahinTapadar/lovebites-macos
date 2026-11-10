@@ -1,0 +1,8 @@
+{
+  "manifest_version": 3,
+  "name": "LoveBites New Tab",
+  "version": "1.0.0",
+  "description": "A drifting pink aurora, rising petals and a breathing clock on every new tab.",
+  "chrome_url_overrides": { "newtab": "index.html" },
+  "permissions": ["search"]
+}

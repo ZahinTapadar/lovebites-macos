@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "LoveBites",
+  "version": "1.0.0",
+  "description": "Pink frame, paper toolbar: the LoveBites palette for Chrome.",
+  "theme": {
+    "colors": {
+      "frame": [255, 90, 111],
+      "frame_inactive": [242, 150, 162],
+      "frame_incognito": [141, 50, 61],
+      "frame_incognito_inactive": [110, 45, 55],
+      "background_tab": [255, 122, 139],
+      "background_tab_inactive": [244, 170, 180],
+      "toolbar": [250, 246, 243],
+      "tab_text": [58, 45, 49],
+      "tab_background_text": [255, 244, 246],
+      "tab_background_text_inactive": [255, 236, 239],
+      "bookmark_text": [111, 92, 98],
+      "toolbar_text": [58, 45, 49],
+      "toolbar_button_icon": [255, 90, 111],
+      "omnibox_background": [243, 235, 230],
+      "omnibox_text": [58, 45, 49],
+      "ntp_background": [250, 246, 243],
+      "ntp_text": [58, 45, 49],
+      "ntp_link": [255, 90, 111]
+    }
+  }
+}

@@ -1,0 +1,52 @@
+@font-face { font-family: "LB Fraunces"; font-style: normal; font-weight: 100 900; src: url(fonts/Fraunces-latin.woff2) format("woff2"); }
+@font-face { font-family: "LB Fraunces"; font-style: italic; font-weight: 100 900; src: url(fonts/Fraunces-Italic-latin.woff2) format("woff2"); }
+
+:root { --bg: #faf6f3; --ink: #3a2d31; --soft: #8a747b; --pink: #ff5a6f; --violet: #c75aa8; --glow: rgba(255,90,111,.30); --glow2: rgba(199,90,168,.22); --field: rgba(255,255,255,.55); }
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #1f1a1c; --ink: #f2e4e7; --soft: #a8959a; --pink: #ff6b7f; --violet: #e08fd0; --glow: rgba(255,107,127,.26); --glow2: rgba(224,143,208,.16); --field: rgba(255,255,255,.06); }
+}
+
+* { box-sizing: border-box; margin: 0; }
+html, body { height: 100%; overflow: hidden; }
+body { background: var(--bg); color: var(--ink); font-family: "LB Fraunces", Georgia, serif; cursor: default; }
+
+/* three slow blobs of colour, blurred together */
+.aurora { position: fixed; inset: -20%; filter: blur(80px) saturate(1.2); }
+.aurora i { position: absolute; border-radius: 50%; }
+.aurora i:nth-child(1) { width: 55vmax; height: 55vmax; left: 10%; top: 5%; background: var(--glow); animation: drift1 26s ease-in-out infinite alternate; }
+.aurora i:nth-child(2) { width: 45vmax; height: 45vmax; right: 5%; top: 25%; background: var(--glow2); animation: drift2 31s ease-in-out infinite alternate; }
+.aurora i:nth-child(3) { width: 38vmax; height: 38vmax; left: 35%; bottom: -5%; background: var(--glow); animation: drift3 23s ease-in-out infinite alternate; }
+@keyframes drift1 { to { transform: translate(18vw, 12vh) scale(1.25); } }
+@keyframes drift2 { to { transform: translate(-22vw, -8vh) scale(.85); } }
+@keyframes drift3 { to { transform: translate(-10vw, -18vh) scale(1.15); } }
+
+#petals { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.grain { position: fixed; inset: 0; pointer-events: none; opacity: .05; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+@media (prefers-color-scheme: dark) { .grain { mix-blend-mode: screen; opacity: .06; } }
+
+main { position: relative; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; animation: rise 1.2s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes rise { from { opacity: 0; transform: translateY(18px); filter: blur(6px); } }
+
+.orn { color: var(--pink); letter-spacing: .6em; font-size: 15px; margin-bottom: 8px; }
+#time { font-style: italic; font-weight: 400; font-size: clamp(96px, 17vw, 230px); line-height: .95; letter-spacing: -.02em;
+  font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144, "wght" 300;
+  background: linear-gradient(100deg, var(--ink) 0%, var(--ink) 38%, var(--pink) 50%, var(--violet) 56%, var(--ink) 68%, var(--ink) 100%);
+  background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: breathe 7s ease-in-out infinite, shimmer 11s ease-in-out infinite; font-variant-numeric: lining-nums;
+  padding: 0 .14em; /* room for italic overhang, which background-clip: text would otherwise cut off */ }
+@keyframes breathe { 50% { font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144, "wght" 520; } }
+@keyframes shimmer { 0%, 55% { background-position: 100% 0; } 100% { background-position: 0% 0; } }
+#date { font-variant: all-small-caps; letter-spacing: .28em; color: var(--soft); font-size: 18px; margin-top: 14px; }
+#greet { font-style: italic; color: var(--soft); font-size: 22px; margin-top: 6px; }
+#greet::after { content: " ❤"; color: var(--pink); display: inline-block; animation: beat 1.6s ease-in-out infinite; }
+@keyframes beat { 15% { transform: scale(1.25); } 30% { transform: scale(1); } 45% { transform: scale(1.18); } 60% { transform: scale(1); } }
+
+#search { margin-top: 44px; width: min(560px, 82vw); }
+#q { width: 100%; padding: 16px 26px; border-radius: 99px; border: 1px solid color-mix(in srgb, var(--pink) 28%, transparent);
+  background: var(--field); backdrop-filter: blur(14px); color: var(--ink); caret-color: var(--pink);
+  font: italic 19px "LB Fraunces", Georgia, serif; outline: none;
+  box-shadow: 0 10px 40px -18px var(--glow); transition: box-shadow .5s cubic-bezier(.2,.8,.2,1), border-color .4s, transform .5s cubic-bezier(.2,.8,.2,1); }
+#q::placeholder { color: var(--soft); opacity: .8; }
+#q:focus { border-color: var(--pink); box-shadow: 0 0 0 6px color-mix(in srgb, var(--pink) 12%, transparent), 0 18px 50px -16px var(--glow); transform: translateY(-2px); }
+#q::-webkit-search-cancel-button { display: none; }
