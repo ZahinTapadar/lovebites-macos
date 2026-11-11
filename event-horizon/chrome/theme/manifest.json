@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "Event Horizon",
+  "version": "1.0.0",
+  "description": "Ink-black frame, ice-white light: the Event Horizon palette for Chrome.",
+  "theme": {
+    "colors": {
+      "frame": [5, 6, 10],
+      "frame_inactive": [10, 12, 18],
+      "frame_incognito": [24, 8, 6],
+      "frame_incognito_inactive": [18, 8, 7],
+      "background_tab": [9, 11, 17],
+      "background_tab_inactive": [10, 12, 18],
+      "toolbar": [14, 18, 28],
+      "tab_text": [223, 231, 245],
+      "tab_background_text": [110, 123, 148],
+      "tab_background_text_inactive": [90, 100, 120],
+      "bookmark_text": [174, 187, 210],
+      "toolbar_text": [223, 231, 245],
+      "toolbar_button_icon": [169, 200, 255],
+      "omnibox_background": [22, 28, 42],
+      "omnibox_text": [223, 231, 245],
+      "ntp_background": [5, 6, 10],
+      "ntp_text": [223, 231, 245],
+      "ntp_link": [169, 200, 255]
+    }
+  }
+}

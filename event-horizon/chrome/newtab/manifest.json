@@ -1,0 +1,8 @@
+{
+  "manifest_version": 3,
+  "name": "Event Horizon New Tab",
+  "version": "2.0.0",
+  "description": "The ringed black hole, alive: light streams along the disk, the ground lights breathe, your sites wait below.",
+  "chrome_url_overrides": { "newtab": "index.html" },
+  "permissions": ["search", "topSites", "favicon"]
+}

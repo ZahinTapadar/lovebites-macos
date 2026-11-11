@@ -1,4 +1,6 @@
 // LoveBites conky panel, rebuilt for Übersicht. Positions follow the original .conkyrc over background.png.
+import { run } from "uebersicht";
+
 export const command = "lovebites.widget/stats.sh";
 export const refreshFrequency = 2000;
 
@@ -96,6 +98,11 @@ export const render = ({ d, dl, hist }) => {
       )}
 
       <div style={right(56, 337, 23)}>{uptime(d.up)}</div>
+      <div style={{ position: "absolute", right: 56, top: 380 }}>
+        <button title="Switch to Event Horizon" onClick={() => run("$HOME/.local/bin/rice toggle")}
+          style={{ cursor: "pointer", font: "inherit", fontSize: 12, letterSpacing: "0.2em", color: PINK, background: "none",
+                   border: `1px solid ${PINK}`, borderRadius: 99, padding: "3px 10px" }}>✦ swap</button>
+      </div>
     </div>
   );
 };

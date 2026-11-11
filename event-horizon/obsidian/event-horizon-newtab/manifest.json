@@ -1,0 +1,9 @@
+{
+  "id": "event-horizon-newtab",
+  "name": "Event Horizon New Tab",
+  "version": "1.0.0",
+  "minAppVersion": "1.5.0",
+  "description": "Empty tabs become the ringed black hole: light streams along the disk, a clock, vault search and your recent notes. Only while the Event Horizon theme is active.",
+  "author": "Zahin Tapadar",
+  "isDesktopOnly": false
+}

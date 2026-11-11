@@ -1,0 +1,79 @@
+#!/bin/bash
+# rice: switch the whole Mac between LoveBites and Event Horizon.
+#   rice                 show the active rice
+#   rice toggle          switch to the other one
+#   rice <name>          lovebites | event-horizon
+# Each rice folder holds a rice.sh profile; this script applies it.
+set -euo pipefail
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+
+# the repo this script lives in (followed through the ~/.local/bin/rice link): LoveBites at its root, Event Horizon in event-horizon/
+ROOT=$(cd "$(dirname "$(readlink -f "$0")")/.." && pwd)
+ALL="$ROOT $ROOT/event-horizon"
+dir_of() { case $1 in lovebites) echo "$ROOT" ;; event-horizon) echo "$ROOT/event-horizon" ;; esac; }
+STATE="$HOME/.config/rice"
+CUR=$(cat "$STATE/current" 2>/dev/null || echo lovebites)
+
+case "${1:-}" in
+  "") echo "$CUR"; exit ;;
+  toggle) NAME=$([ "$CUR" = lovebites ] && echo event-horizon || echo lovebites) ;;
+  *) NAME=$1 ;;
+esac
+DIR=$(dir_of "$NAME")
+[ -n "$DIR" ] && [ -f "$DIR/rice.sh" ] || { echo "unknown rice: $NAME (lovebites | event-horizon)" >&2; exit 1; }
+cd "$DIR"; source ./rice.sh
+mkdir -p "$STATE"; echo "$NAME" > "$STATE/current"
+echo "==> $NAME"
+
+# desktop: appearance, accent, selection colour, wallpaper
+osascript -e "tell application \"System Events\" to tell appearance preferences to set dark mode to $DARK"
+defaults write -g AppleAccentColor -int "$ACCENT"
+defaults write -g AppleHighlightColor -string "$HIGHLIGHT"
+osascript -e "tell application \"System Events\" to tell every desktop to set picture to \"$WALLPAPER\""
+
+# Übersicht: only the active rice's widget stays in the widgets folder
+W="$HOME/Library/Application Support/Übersicht/widgets"
+mkdir -p "$W"
+for d in $ALL; do for w in "$d"/ubersicht/*.widget; do rm -rf "$W/$(basename "$w")"; done; done
+cp -R "ubersicht/$WIDGET" "$W/"
+
+# Ghostty: the main config includes rice.conf; SIGUSR2 makes running windows reload it
+G="$HOME/.config/ghostty"
+mkdir -p "$G/themes"; cp ghostty/themes/* "$G/themes/"
+printf '# written by rice (%s); edit %s/rice.sh instead\n%s\n' "$NAME" "$DIR" "$GHOSTTY" > "$G/rice.conf"
+pkill -USR2 -x ghostty 2>/dev/null || true
+
+# Neovim: colorscheme file plus the name config/theme.lua reads (open editors switch on focus)
+mkdir -p "$HOME/.config/nvim/colors"; cp nvim/colors/*.lua "$HOME/.config/nvim/colors/"
+echo "$NVIM" > "$STATE/nvim"
+
+# fastfetch logo
+mkdir -p "$HOME/.config/fastfetch"; ln -sf "$LOGO" "$HOME/.config/fastfetch/logo.png"
+
+# Obsidian: every open vault gets the Event Horizon theme files, then this rice's theme;
+# the LoveBites plugin's own look is switched in its settings, its code is never touched
+if command -v obsidian >/dev/null && pgrep -xq Obsidian; then
+  python3 -c 'import json,os
+for v in json.load(open(os.path.expanduser("~/Library/Application Support/obsidian/obsidian.json")))["vaults"].values():
+    v.get("open") and print(v["path"])' | while IFS= read -r vault; do
+    mkdir -p "$vault/.obsidian/themes"
+    cp -R "$ROOT/event-horizon/obsidian/Event Horizon" "$vault/.obsidian/themes/"
+    # the New Tab plugin only draws while the Event Horizon theme is on, so it can stay enabled
+    mkdir -p "$vault/.obsidian/plugins"; cp -R "$ROOT/event-horizon/obsidian/event-horizon-newtab" "$vault/.obsidian/plugins/"
+    name=$(basename "$vault")
+    obsidian vault="$name" plugin:enable id=event-horizon-newtab >/dev/null
+    obsidian vault="$name" theme:set name="$OBS_THEME" >/dev/null
+    obsidian vault="$name" eval code="const p = app.plugins.plugins.lovebites; if (p) { p.settings.look = $OBS_LB_LOOK; p.settings.accent = '$OBS_LB_ACCENT'; p.saveSettings().then(() => p.applyAppearance()); }" >/dev/null
+  done
+fi
+
+# Finder folder icons (slow, so it runs in the background)
+(
+  for pair in Desktop:folder-desktop Documents:folder-documents Downloads:folder-download \
+              Music:folder-music Pictures:folder-pictures Movies:folder-videos; do
+    d="$HOME/${pair%%:*}"; [ -d "$d" ] || continue
+    if [ -n "$FOLDERS" ]; then fileicon -q set "$d" "$FOLDERS/${pair#*:}.png"; else fileicon -q rm "$d"; fi
+  done
+) >/dev/null 2>&1 &
+
+echo "Chrome: chrome://extensions → Load unpacked → $DIR/chrome/theme (see README)"
