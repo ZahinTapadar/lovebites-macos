@@ -76,7 +76,8 @@
   --graph-line: rgba(169, 200, 255, 0.14);
 }
 
-/* ---- the sky behind every pane ------------------------------------------ */
+/* ---- the sky behind every pane ------------------------------------------
+   Still on purpose: animating this full-window layer halved Obsidian's frame rate. */
 .theme-dark .app-container {
   background-color: var(--eh-void);
   background-image:
@@ -88,14 +89,9 @@
     radial-gradient(1px 1px at 91% 77%, rgba(244,247,255,.3) 50%, transparent 51%),
     radial-gradient(1.5px 1.5px at 44% 33%, rgba(244,247,255,.25) 50%, transparent 51%),
     radial-gradient(1px 1px at 7% 91%, rgba(255,91,56,.35) 50%, transparent 51%),
-    /* a far-off accretion glow low on the horizon */
     radial-gradient(140% 38% at 70% 112%, rgba(255,91,56,.10), rgba(244,247,255,.05) 40%, transparent 70%),
     radial-gradient(90% 60% at 10% -10%, rgba(91,140,255,.08), transparent 60%);
   background-size: 340px 340px, 420px 420px, 520px 520px, 380px 380px, 460px 460px, 300px 300px, 600px 600px, 500px 500px, 100% 100%, 100% 100%;
-  animation: eh-drift 240s linear infinite;
-}
-@keyframes eh-drift {
-  to { background-position: -340px 0, -420px 0, -520px 0, -380px 0, -460px 0, -300px 0, -600px 0, -500px 0, 0 0, 0 0; }
 }
 .theme-dark .workspace, .theme-dark .workspace-split.mod-root,
 .theme-dark .workspace-tabs .workspace-leaf, .theme-dark .workspace-split.mod-root .view-content,
@@ -178,7 +174,7 @@ body.theme-dark.lb-reading.lb-reading {
   --text-selection: rgba(91, 140, 255, .22);
 }
 body.theme-dark.lb-reading.lb-reading.lb-page-night {
-  --lb-paper: rgba(11, 14, 21, .9); --lb-paper-ink: #dfe7f5; --lb-paper-soft: #a5b3cc; --lb-paper-faint: #66728a; --lb-paper-accent: #a9c8ff;
+  --lb-paper: rgba(11, 14, 21, .96); --lb-paper-ink: #dfe7f5; --lb-paper-soft: #a5b3cc; --lb-paper-faint: #66728a; --lb-paper-accent: #a9c8ff;
   --lb-edge-1: rgba(169, 200, 255, .22); --lb-edge-2: rgba(169, 200, 255, .12); --lb-edge-3: rgba(255, 91, 56, .18);
   --lb-edge-4: rgba(169, 200, 255, .08); --lb-edge-5: rgba(255, 91, 56, .1);
   --text-selection: rgba(91, 140, 255, .3);
@@ -201,9 +197,6 @@ body.theme-dark.lb-reading.lb-reading .markdown-reading-view .markdown-preview-s
   box-shadow:
     0 0 0 1px var(--lb-edge-1), 2px 3px 0 var(--lb-edge-2), 4px 6px 0 var(--lb-edge-3), 6px 9px 0 var(--lb-edge-4), 8px 12px 0 var(--lb-edge-5),
     0 0 90px rgba(91, 140, 255, .12), 0 50px 90px -30px rgba(0, 0, 0, .85);
-}
-body.theme-dark.lb-reading.lb-reading.lb-page-night .markdown-reading-view .markdown-preview-sizer {
-  -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
 }
 body.theme-dark.lb-reading.lb-reading .markdown-reading-view .inline-title {
   font-family: "Avenir Next", -apple-system, sans-serif; font-weight: 200; letter-spacing: .06em; font-variation-settings: normal;
@@ -231,26 +224,6 @@ body.theme-dark.lb-reading.lb-reading .markdown-preview-sizer blockquote { color
    Small and slow on purpose. With macOS Reduce Motion on, everything still moves, at half speed. */
 .theme-dark { --eh-ease: cubic-bezier(.2, .7, .2, 1); --eh-pace: 1; }
 @media (prefers-reduced-motion: reduce) { .theme-dark { --eh-pace: 2; } }
-
-/* dust rising off the disk: a few faint motes drift upward behind everything */
-.theme-dark .app-container::after {
-  content: ""; position: fixed; inset: 0; z-index: 10; pointer-events: none;   /* above the panes, under menus and modals */
-  background-image:
-    radial-gradient(2px 2px at 18% 30%, rgba(169,200,255,.6) 40%, transparent 70%),
-    radial-gradient(1.5px 1.5px at 62% 70%, rgba(244,247,255,.55) 40%, transparent 70%),
-    radial-gradient(2px 2px at 84% 12%, rgba(255,91,56,.55) 40%, transparent 70%),
-    radial-gradient(1.5px 1.5px at 40% 88%, rgba(169,200,255,.5) 40%, transparent 70%),
-    radial-gradient(2.5px 2.5px at 8% 64%, rgba(255,143,79,.4) 40%, transparent 70%),
-    radial-gradient(1.5px 1.5px at 72% 40%, rgba(244,247,255,.45) 40%, transparent 70%);
-  background-size: 260px 560px, 330px 700px, 430px 640px, 240px 820px, 500px 760px, 380px 900px;
-  -webkit-mask-image: linear-gradient(to top, transparent, #000 18%, #000 72%, transparent);
-          mask-image: linear-gradient(to top, transparent, #000 18%, #000 72%, transparent);
-  animation: eh-rise-motes calc(90s * var(--eh-pace)) linear infinite, eh-flicker calc(7s * var(--eh-pace)) ease-in-out infinite alternate;
-}
-@keyframes eh-rise-motes {   /* each layer climbs one tile per loop, so the layers rise at different speeds */
-  to { background-position: 0 -560px, 0 -700px, 0 -640px, 0 -820px, 0 -760px, 0 -900px; }
-}
-@keyframes eh-flicker { from { opacity: .55; } to { opacity: 1; } }
 
 /* headings: hover and they widen and catch the disk's light, blue through white to ember */
 .theme-dark:not(.lb-reading) :is(.markdown-rendered :is(h1, h2, h3), .inline-title, .HyperMD-header .cm-header) {
@@ -286,14 +259,8 @@ body.theme-dark.lb-reading.lb-reading .markdown-preview-sizer blockquote { color
   content: ""; position: absolute; left: 12%; right: 12%; bottom: 0; height: 1px; pointer-events: none;
   background: linear-gradient(90deg, transparent, var(--eh-blue), var(--eh-white), var(--eh-ember), transparent) 0 0 / 200% 100%;
   box-shadow: 0 0 8px rgba(169, 200, 255, .6);
-  animation: eh-sheen calc(6s * var(--eh-pace)) linear infinite;
 }
 
-/* the disk-edge rule: light runs along it */
-.theme-dark .markdown-rendered hr, .theme-dark .hr hr {
-  background-size: 200% 100%;
-  animation: eh-sheen calc(9s * var(--eh-pace)) linear infinite;
-}
 
 /* tags glow, checked boxes light up with a small flare */
 .theme-dark a.tag, .theme-dark .cm-hashtag { transition: box-shadow .3s ease, background .3s ease; }
