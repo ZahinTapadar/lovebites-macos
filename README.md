@@ -26,7 +26,7 @@ fastfetch, Finder folders, Chrome and Obsidian. One command flips the whole Mac 
 ### Fresh Mac
 
 ```bash
-git clone -b event-horizon https://github.com/ZahinTapadar/lovebites-macos.git ~/Programming/lovebites-macos
+git clone https://github.com/ZahinTapadar/lovebites-macos.git ~/Programming/lovebites-macos
 cd ~/Programming/lovebites-macos
 ./setup.sh                 # or: ./setup.sh event-horizon
 ```

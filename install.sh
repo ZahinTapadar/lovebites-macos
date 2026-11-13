@@ -90,13 +90,13 @@ echo "   use it with :colorscheme lovebites"
 echo "==> fastfetch anime logo"
 F="$HOME/.config/fastfetch"
 mkdir -p "$F"
-cp "$HERE/assets/terminal/fastfetch-logo.png" "$F/lovebites-logo.png"
+cp "$HERE/assets/terminal/fastfetch-logo.png" "$F/logo.png"
 backup "$F/config.jsonc" fastfetch-config.jsonc
 if [ -f "$F/config.jsonc" ] && ! grep -q '"logo"' "$F/config.jsonc"; then
   # insert a logo block before "modules" so the rest of the user's config stays as is
   python3 - "$F/config.jsonc" <<'PY'
 import sys; p=sys.argv[1]; s=open(p).read()
-logo='"logo": {"type": "kitty-direct", "source": "~/.config/fastfetch/lovebites-logo.png", "height": 19, "padding": {"top": 1, "left": 1, "right": 3}},\n    "modules"'
+logo='"logo": {"type": "kitty-direct", "source": "~/.config/fastfetch/logo.png", "height": 19, "padding": {"top": 1, "left": 1, "right": 3}},\n    "modules"'
 open(p,'w').write(s.replace('"modules"', logo, 1))
 PY
 elif [ ! -f "$F/config.jsonc" ]; then
